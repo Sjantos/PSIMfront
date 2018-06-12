@@ -1,0 +1,63 @@
+﻿@using WebFrontend.Web.Startup
+@model WebFrontend.Web.Models.IndexViewModel
+@{
+    ViewBag.Title = L("All posts");
+    ViewBag.ActiveMenu = PageNames.Home;
+}
+
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/js/views/home/index.js"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/js/views/home/index.min.js"></script>
+    </environment>
+}
+
+<h2>@L("Posts")</h2>
+
+<div class="row">
+    <div>
+        <ul class="list-group" id="Posts">
+            @foreach (var post in Model.Posts)
+            {
+                <li class="list-group-item">
+                    <h4 class="list-group-item-heading">@post.Title</h4>
+                    @post.GetTags()
+                    <div class="list-group-tem-text">
+                        @post.Description
+                        <br />
+                        Attached file:  @post.FileName
+                        <br />
+                        @post.CreatedAt.ToString() by: @post.AuthorUsername
+                        <input type="button" value="Download" onclick="location.href='@Url.Action("DownloadFile", "Home", new { postId = post.Id })'" />
+                    </div>
+
+                    <div>
+                        <ul class="list-group" id="PostComments">
+                            @foreach (var comment in post.Comments)
+                            {
+                                <div class="list-group-item">
+                                    <div>
+                                        <h6 style="float: left">@comment.AuthorUsername</h6>
+                                        <h6 style="float: right">@comment.CreatedAt</h6>
+                                    </div>
+                                    <br /><hr />
+                                    @comment.CommentContent
+                                </div>
+                            }
+                        </ul>
+                    </div>
+                    <div>
+                        <a href="Home/CreateComment?postId=@post.Id" class="btn btn-link">Dodaj komentarz</a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+    @*<div class="col-lg-12">
+        @L("Home_Description")
+    </div>*@
+</div>

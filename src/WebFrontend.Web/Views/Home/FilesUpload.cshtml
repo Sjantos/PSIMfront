@@ -1,0 +1,30 @@
+﻿@model WebFrontend.Entities.FileUpload
+
+@{
+    ViewData["Title"] = "FilesUpload";
+}
+
+<h2>FilesUpload</h2>
+
+<h4>FileUpload</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                @*<label asp-for="Files" class="control-label"></label>*@
+                <input asp-for="Files" type="file" class="form-control" style="height:auto" />
+                @*<span asp-validation-for="FileUpload.UploadPublicSchedule" class="text-danger"></span>*@
+            </div>
+            <input type="submit" value="Upload" class="btn btn-default" />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
